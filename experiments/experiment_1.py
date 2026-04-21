@@ -11,24 +11,22 @@ from metrics import metrics_base, metrics_MAO, find_best_k
 
 def main():
     """
-    Experiment 1: Particular case.
-    This experminent uses K-Means instead of FCM.
+    Experiment 1: Particular case K-Means.
+    This experiment uses K-Means instead of FCM.
     And, thus the matrix U is the one obtained from coverage_degress instead of the one obtained from Fuzzy C-Means.
     Study one dataset and the behavior of the indices as k increases. Compare with the true labels.
 
     """
-    print("Hello from clusterqualitymad!")
+    print("Experiment 1: K-Means")
     N = 256
     actual_clusters = 4
     dt = 0.4
     S = 3
     blob_file = f"data/blobs/blobs-P2-K{actual_clusters}-N{N}-dt{dt}0-S{S}.npy"
     blobs = np.load(blob_file)
-    scaler = StandardScaler()  # FIXME: Here or before clustering the data?
-    scaler.fit(blobs[:-1])
-    scaler.transform(blobs[:-1])
-    X = blobs[:,:-1]
-    y = blobs[:,-1].astype(int)
+    X_raw = blobs[:, :-1]
+    y = blobs[:, -1].astype(int)
+    X = StandardScaler().fit_transform(X_raw)
     results = []
     all_labels = [y]
     possible_k = range(2,actual_clusters+3)
@@ -50,7 +48,7 @@ def main():
     plot_evo(results[:,-8:],header[-8:], possible_k,title="MAO", nexp=1)
     plot_evo(results[:, :-8], header[:-8], possible_k,title="Non-MAO", nexp=1)
 
-    # Ejemplo aplicado a toda tu matriz (fila por fila)
+    # Ejemplo aplicado a toda la matriz (fila por fila)
     resultados_k = []
     for i in range(results.shape[1]):
         method = header[i]

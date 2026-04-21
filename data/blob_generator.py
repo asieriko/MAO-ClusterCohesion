@@ -59,6 +59,7 @@ def generate_scenario(
 
     if s_high == 0.5:
         scaling_factors = [0.3,0.32,0.34,0.36,0.38,0.4,0.425,0.45,0.475,0.5]
+        scaling_factors = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5] # NOTE: Change by Asier
     elif s_low == 1.0 and s_high == 1.0:
         scaling_factors = [1.0] * n_blobs
     else:
@@ -284,7 +285,7 @@ def ensure_dirs_exist(paths):
 if __name__ == "__main__":
     rng = np.random.default_rng(1)
     initial_seed=200
-    n_blobs=20
+    n_blobs=9
     k_max=37
     max_pred=35
     kh=15
@@ -296,9 +297,9 @@ if __name__ == "__main__":
     # n_values_custom = [64, 128, 1024]
     # d_intervals_custom = [(0.1, 1.0)]
     k_values_custom = [2, 4, 8, 16, 32]
-    p_values_custom = [2, 5, 10]
-    n_values_custom = [128, 256, 512, 1024]
-    d_intervals_custom = [(0.1, 1.0)]
+    p_values_custom = [2, 5, 10, 15, 20]
+    n_values_custom = [128, 256, 512, 1024, 2048, 4096, 8192]
+    d_intervals_custom = [(0.1, 0.5)]
 
     scenarios_custom = []
     for k, p, n, (sl, su) in itertools.product(k_values_custom, p_values_custom, n_values_custom, d_intervals_custom):
@@ -333,4 +334,4 @@ if __name__ == "__main__":
     df_custom.head(), file_path_custom
 
     # generate_data(path="./datasets/")
-    generate_data(path="./")
+    generate_data(path="./",n_blobs=n_blobs)

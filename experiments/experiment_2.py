@@ -10,24 +10,22 @@ from metrics import metrics_base, metrics_MAO, find_best_k
 
 def main():
     """
-    Experiment 2: Particular case.
-    This experminent is the same as experiment 1 but using Fuzzy C-Means instead of K-Means.
+    Experiment 2: Particular case  Fuzzy C-Means.
+    This experiment is the same as experiment 1 but using Fuzzy C-Means instead of K-Means.
     And, thus the matrix U is the one obtained from Fuzzy C-Means instead of the one obtained from coverage_degress.
     Study one dataset and the behavior of the indices as k increases. Compare with the true labels.
 
     """
-    print("Hello from clusterqualitymad!")
+    print("Experiment 2: Fuzzy C-Means")
     N = 256
     actual_clusters = 4
     dt = 0.4
     S = 3
     blob_file = f"data/blobs/blobs-P2-K{actual_clusters}-N{N}-dt{dt}0-S{S}.npy"
     blobs = np.load(blob_file)
-    scaler = StandardScaler()  # FIXME: Here or before clustering the data?
-    scaler.fit(blobs[:-1])
-    scaler.transform(blobs[:-1])
-    X = blobs[:,:-1]
-    y = blobs[:,-1].astype(int)
+    X_raw = blobs[:, :-1]
+    y = blobs[:, -1].astype(int)
+    X = StandardScaler().fit_transform(X_raw)
     results = []
     all_labels = [y]
     possible_k = range(2,actual_clusters+3)
